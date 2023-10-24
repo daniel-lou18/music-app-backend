@@ -16,7 +16,6 @@ const sendMail = async (options) => {
     subject: options.subject,
     text: options.message,
   });
-  console.log(info);
 };
 
 module.exports = sendMail;
