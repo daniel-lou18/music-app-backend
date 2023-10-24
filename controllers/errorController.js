@@ -38,6 +38,9 @@ const handleDuplicateError = (err) =>
     400
   );
 
+const handleJWTError = () =>
+  new AppError("Invalid token. Please log back in", 401);
+
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
@@ -47,6 +50,7 @@ module.exports = (err, req, res, next) => {
     let error = { ...err, message: err.message, name: err.name };
     if (error.name === "ValidationError") error = handleValidationError(error);
     if (error.code === 11000) error = handleDuplicateError(error);
+    if (error.name === "JsonWebTokenError") error = handleJWTError();
     sendErrorProd(error, res);
   }
 };
